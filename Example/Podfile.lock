@@ -1,8 +1,8 @@
 PODS:
-  - GoogleAds-IMA-iOS-SDK (3.14.3)
+  - GoogleAds-IMA-iOS-SDK (3.16.3)
   - VMaxAdsSDK (0.0.136)
   - VMaxGamAdapter (0.0.1):
-    - GoogleAds-IMA-iOS-SDK
+    - GoogleAds-IMA-iOS-SDK (~> 3.16.3)
     - VMaxAdsSDK
 
 DEPENDENCIES:
@@ -18,9 +18,9 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  GoogleAds-IMA-iOS-SDK: 2a9b7b14bda4993306f05287f952dce41b5be4ad
+  GoogleAds-IMA-iOS-SDK: 1aba71fa5b58dc463cc5b752f06e970ec7c739c1
   VMaxAdsSDK: 6bc6876c878681b6a2dd1cce3fdcec22e593abc8
-  VMaxGamAdapter: 6774c4ef841d762fa27c20af7b0b78bb98991d2a
+  VMaxGamAdapter: bbe82fd8489dd85c8dd20754e6be74f5e8d4a7d4
 
 PODFILE CHECKSUM: 9bb0d7a9ecee996659522178f491c884de29c017
 
