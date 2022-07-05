@@ -47,7 +47,6 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
     if ((idAdTagURL != nil) && ( [idAdTagURL isKindOfClass:[NSString class]])){
         self.adTagUrl = [inParams objectForKey:kInContentVideo_AdTagUrl];
     }
-    //self.adTagUrl = errorAdTagUrl;
 
     self.contentURL = [NSURL URLWithString:@"."];
 
@@ -740,5 +739,12 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
         [self.adsManager resume];
     }
 }
+
+- (void)updateMediaProgess:(NSNumber*) currentDuration withTotalDuration:(NSNumber*)totalDuration {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(VMaxCustomAdProgress:withTotalDuration:)]) {
+        [self.delegate VMaxCustomAdProgress:currentDuration withTotalDuration:totalDuration];
+    }
+}
+
 
 @end
