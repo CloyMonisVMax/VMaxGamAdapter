@@ -4,7 +4,7 @@
 #import <UIKit/UIKit.h>
 @import GoogleInteractiveMediaAds;
 @import VMaxAdsSDK;
-#import "VMaxCustomAd.h"
+//#import "VMaxCustomAd.h"
 
 @interface VMaxGoogleIMAAdapter : NSObject <VMaxCustomAd>
 @property (nonatomic, weak) id<VMaxCustomAdListener> delegate;

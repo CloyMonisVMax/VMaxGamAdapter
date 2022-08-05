@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'VMaxGamAdapter'
-  s.version          = '0.0.4'
+  s.version          = '0.0.5'
   s.summary          = 'VMaxGamAdapter classes connect VMaxAdsSDK and GoogleAdMobs libraries'
   s.description      = 'VMaxGamAdapter classes connect VMaxAdsSDK and GoogleAdMobs libraries in VMaxAdBreak to VmaxInstream ads and GAM video ads together'
   s.homepage         = 'https://github.com/CloyMonisVMax/VMaxGamAdapter'

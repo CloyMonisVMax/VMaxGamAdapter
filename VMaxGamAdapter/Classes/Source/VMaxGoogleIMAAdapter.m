@@ -7,9 +7,9 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import "VMaxGoogleIMAAdapter.h"
-#import "VMaxCustomAd.h"
-#import "VMaxAdError.h"
-#import "VMaxAdPartner.h"
+//#import "VMaxCustomAd.h"
+//#import "VMaxAdError.h"
+//#import "VMaxAdPartner.h"
 
 NSString *const kInContentVideo_AdTagUrl             = @"ad_tag_url";
 NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
