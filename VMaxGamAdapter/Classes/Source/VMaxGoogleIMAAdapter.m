@@ -4,11 +4,12 @@
 
 @import GoogleInteractiveMediaAds;
 @import VMaxAdsSDK;
+
 #import <AVFoundation/AVFoundation.h>
 #import "VMaxGoogleIMAAdapter.h"
-//#import "VMaxCustomAd.h"
-//#import "VMaxAdError.h"
-//#import "VMaxAdPartner.h"
+#import "VMaxCustomAd.h"
+#import "VMaxAdError.h"
+#import "VMaxAdPartner.h"
 
 NSString *const kInContentVideo_AdTagUrl             = @"ad_tag_url";
 NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
@@ -38,7 +39,7 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
 
 - (void)loadCustomAd:(NSDictionary *)inParams withDelegate:(id<VMaxCustomAdListener>)inDelegate viewController:(UIViewController *)parentViewController withExtras:(NSDictionary *)inExtraInfo {
     VLog(@"%@ loadCustomAd GoogleIMA SDK Version: %@",NSStringFromClass([self class]),[IMAAdsLoader sdkVersion]);
-
+    
     self.adIsPlaying = NO;
     self.allAdsCompleted = NO;
     self.parentViewController = parentViewController;
@@ -47,23 +48,23 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
     if ((idAdTagURL != nil) && ( [idAdTagURL isKindOfClass:[NSString class]])){
         self.adTagUrl = [inParams objectForKey:kInContentVideo_AdTagUrl];
     }
-
+    
     self.contentURL = [NSURL URLWithString:@"."];
-
+    
     if ([inExtraInfo valueForKey:kVMaxMediationDirectShow]){
         self.directShow = inExtraInfo[kVMaxMediationDirectShow];
     }
-
+    
     if (inExtraInfo[kVMaxCustomAdExtras_InContentVideoParams]){
         if ([inExtraInfo[kVMaxCustomAdExtras_InContentVideoParams] valueForKey:kVMaxCustomAdExtras_InContentVideoContentPlayerView]){
             self.contentPlayerContainerView = inExtraInfo[kVMaxCustomAdExtras_InContentVideoParams][kVMaxCustomAdExtras_InContentVideoContentPlayerView];
         }
     }
-
+    
     if ([self.delegate respondsToSelector:@selector(VMaxCustomAd:mediationInfo:)]) {
         [self.delegate performSelector:@selector(VMaxCustomAd:mediationInfo:) withObject:self withObject:@{@"name":kVMaxAdPartner_GoogleIMA,@"version":[IMAAdsLoader sdkVersion]}];
     }
-
+    
     if(self.adTagUrl) {
         if (self.directShow == YES){
             dispatch_async( dispatch_get_main_queue(), ^{
@@ -91,14 +92,14 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
 
 - (void)addRequiredObservers {
     VLog(@"%@ addRequiredObservers",NSStringFromClass([self class]));
-
+    
     [self addObserver:self forKeyPath:@"contentPlayerContainerView.frame" options:NSKeyValueObservingOptionOld context:NULL];  //KVO for contentPlayerContainerView frame change
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(applicationEnteringBackground)
                                                  name:UIApplicationDidEnterBackgroundNotification
                                                object:nil];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(applicationEnteringForeground)
                                                  name:UIApplicationWillEnterForegroundNotification
@@ -108,7 +109,7 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
 #pragma mark - VMaxCustomAd
 - (void)showAd {
     VLog(@"%@ showAd",NSStringFromClass([self class]));
-
+    
     if (self.directShow == YES){
         [self createAdRenderingSettings];
     }else {
@@ -123,7 +124,7 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
 
 - (void)createAdRenderingSettings{
     VLog(@"%@ createAdRenderingSettings",NSStringFromClass([self class]));
-
+    
     // Create ads rendering settings and tell the SDK to use the in-app browser.
     IMAAdsRenderingSettings *adsRenderingSettings = [[IMAAdsRenderingSettings alloc] init];
     adsRenderingSettings.linkOpenerPresentingController = self.parentViewController;
@@ -132,25 +133,25 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
     //adsRenderingSettings.linkOpenerDelegate = __weak self;
     //adsRenderingSettings.webOpenerPresentingController = self.parentViewController;
     //adsRenderingSettings.webOpenerDelegate = self; // to be notified of in-app or external browser opening
-
+    
     // Initialize the ads manager.
     [self.adsManager initializeWithAdsRenderingSettings:adsRenderingSettings];
 }
 
 - (void)invalidateAd {
     VLog(@"%@ invalidateAd",NSStringFromClass([self class]));
-
+    
     [self stopAdBadgeTimer]; //3.15.8 Ad Badge Label
-
+    
     if(self.adsManager) {
         [self.adsManager destroy];
     }
-
+    
 }
 
 - (void)playAd {
     VLog(@"%@ playAd",NSStringFromClass([self class]));
-
+    
     if(self.adsManager) {
         if(self.adIsPlaying && self.contentPlayer) {
             [self.adsManager resume];
@@ -160,7 +161,7 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
 
 - (void)pauseAd {
     VLog(@"%@ pauseAd",NSStringFromClass([self class]));
-
+    
     if(self.adsManager) {
         if(self.adIsPlaying && self.contentPlayer) {
             [self.adsManager pause];
@@ -171,9 +172,9 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
 #pragma mark -
 - (void)displayGoogleIMAAd {
     VLog(@"%@ displayGoogleIMAAd",NSStringFromClass([self class]));
-
+    
     [self updateFrames]; // ensure proper layout when playing ad
-
+    
     if(self.adsManager) {
         self.adIsPlaying = YES;
         [self.adsManager start];
@@ -187,10 +188,10 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
 #pragma mark - Content Player Setup
 - (void)setUpContentPlayer {
     VLog(@"%@ setUpContentPlayer",NSStringFromClass([self class]));
-
+    
     // Load AVPlayer with path to the content.
     self.contentPlayer = [AVPlayer playerWithURL:self.contentURL];
-
+    
     if(self.parentViewController) {
         if (self.contentPlayerLayer) {
             [self.contentPlayerLayer setPlayer:self.contentPlayer];
@@ -202,7 +203,7 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
             [self.contentPlayerContainerView.layer addSublayer:self.contentPlayerLayer];
         }
     }
-
+    
     if(self.contentPlayer) {
         // IMAAVPlayerContentPlayhead for AVPlayer to track current position of the video content
         self.contentPlayhead = [[IMAAVPlayerContentPlayhead alloc] initWithAVPlayer:self.contentPlayer];
@@ -216,7 +217,7 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
 
 - (void)setupAdsLoader {
     VLog(@"%@ setupAdsLoader",NSStringFromClass([self class]));
-
+    
     // Re-use this IMAAdsLoader instance for the entire lifecycle of your app.
     self.adsLoader = [[IMAAdsLoader alloc] initWithSettings:nil];
     self.adsLoader.delegate = self;
@@ -225,7 +226,7 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
 #pragma mark -
 - (void)contentDidFinishPlaying:(NSNotification*)notification {
     VLog(@"%@ contentDidFinishPlaying",NSStringFromClass([self class]));
-
+    
     if(notification.object == self.contentPlayer.currentItem) {
         [self.adsLoader contentComplete]; // content complete only on own video content playing finished, not ad!
     }
@@ -234,12 +235,12 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
 #pragma mark -
 - (void)requestAds:(NSDictionary*)dict {
     VLog(@"%@ requestAds",NSStringFromClass([self class]));
-
+    
     IMAAdDisplayContainer *adDisplayContainer = [[IMAAdDisplayContainer alloc] initWithAdContainer:self.contentPlayerContainerView viewController:self.parentViewController];
-
+    
     self.adTagUrl = [self getModifiedURL:dict adTagURL:self.adTagUrl];
     VLog(@"%@ self.adTagUrl %@",NSStringFromClass([self class]),self.adTagUrl);
-
+    
     // Create an ad request with our ad tag, display container, and optional user context.
     IMAAdsRequest *request = [[IMAAdsRequest alloc] initWithAdTagUrl:self.adTagUrl
                                                   adDisplayContainer:adDisplayContainer
@@ -251,18 +252,18 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
 #pragma mark - IMAAdsLoaderDelegate
 - (void)adsLoader:(IMAAdsLoader *)loader adsLoadedWithData:(IMAAdsLoadedData *)adsLoadedData {
     VLog(@"%@ adsLoader adsLoadedWithData ",NSStringFromClass([self class]));
-
+    
     self.adsManager = adsLoadedData.adsManager; // Grab the instance of the IMAAdsManager
     self.adsManager.delegate = self; // conform to delegate
-
+    
     [self createAdRenderingSettings];
 }
 
 - (void)adsLoader:(IMAAdsLoader *)loader failedWithErrorData:(IMAAdLoadingErrorData *)adErrorData {
     VLog(@"%@ adsLoader:failedWithErrorData: %@", NSStringFromClass([self class]), adErrorData.adError.message);
-
+    
     self.adIsPlaying = NO;
-
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(VMaxCustomAd:didFailWithError:)]) {
         VLog(@"%@ VMaxCustomAd:didFailWithError: %@",NSStringFromClass([self class]),adErrorData);
         NSError *error = [[NSError alloc] initWithDomain:kVMaxAdErrorDomain code:adErrorData.adError.type userInfo:@{kVMaxAdErrorDetail:adErrorData.adError.message}];
@@ -273,23 +274,23 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
 #pragma mark - IMAAdsManagerDelegate
 - (void)adsManager:(IMAAdsManager *)adsManager didReceiveAdEvent:(IMAAdEvent *)event {
     VLog(@"%@ adsManager didReceiveAdEvent %@ ",NSStringFromClass([self class]),event.typeString);
-
+    
     if(event.type == kIMAAdEvent_LOADED) { // ad loaded, play if needed
-
+        
         [self displayGoogleIMAAd];
         //if([self.contentURL.absoluteString length])
-
+        
         if (self.delegate && [self.delegate respondsToSelector:@selector(VMaxCustomAdFill:)]) {
             VLog(@"%@ VMaxCustomAdFill",NSStringFromClass([self class]));
             [self.delegate VMaxCustomAdFill:self];
         }
-
-
+        
+        
     } else if (event.type == kIMAAdEvent_STARTED) {
-
+        
         [self createAdBadgeLabel]; //3.15.8 Ad Badge
         [self startAdBadgeTimer]; //3.15.8 Ad Badge
-
+        
         //..(3.9.18) Added
         if (self.delegate && [self.delegate respondsToSelector:@selector(VMaxCustomAdMediaStart)]) {
             VLog(@"VMaxCustomAdMediaStart");
@@ -306,23 +307,23 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
             [self.delegate VMaxCustomAdRender];
         }
         //..
-
+        
     } else if (event.type == kIMAAdEvent_SKIPPED) {
-
+        
         self.allAdsCompleted = YES;
-
+        
     } else if (event.type == kIMAAdEvent_COMPLETE) {
-
+        
         self.adIsPlaying = NO;
-
+        
         [self stopAdBadgeTimer];
-
+        
     } else if (event.type == kIMAAdEvent_ALL_ADS_COMPLETED) {
-
+        
         self.allAdsCompleted = YES;
-
+        
         [self stopAdBadgeTimer];
-
+        
     }
     //3.15.8
     else if (event.type == kIMAAdEvent_FIRST_QUARTILE) {
@@ -342,61 +343,69 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
         }
     }
     //.
-
+    
     if(event.type == kIMAAdEvent_SKIPPED || event.type == kIMAAdEvent_COMPLETE) {
-
+        
         if (self.delegate && [self.delegate respondsToSelector:@selector(VMaxCustomAd:didComplete:watchedDuration:totalDuration:)]) {
             VLog(@"%@ VMaxCustomAd:didComplete:watchedDuration:totalDuration:",NSStringFromClass([self class]));
             [self.delegate VMaxCustomAd:self didComplete:(event.type == kIMAAdEvent_SKIPPED) ? NO : YES watchedDuration:self.watchedTime totalDuration:event.ad.duration];
         }
     }
     else if(event.type == kIMAAdEvent_ALL_ADS_COMPLETED) {
-
+        
         dispatch_async( dispatch_get_main_queue(), ^{
             if (self.delegate && [self.delegate respondsToSelector:@selector(VMaxCustomAdDidDismissAd:)]) {
                 VLog(@"%@ VMaxCustomAdDidDismissAd",NSStringFromClass([self class]));
                 [self.delegate VMaxCustomAdDidDismissAd:self];
             }
         });
-
+        
     }
-
+    
     else if (event.type == kIMAAdEvent_AD_BREAK_FETCH_ERROR ){
-
+        
         NSError *error = [[NSError alloc] initWithDomain:kVMaxAdErrorDomain code:1 userInfo:@{kVMaxAdErrorDetail:@"Break Fetch error"}];
-
+        
         if (self.delegate && [self.delegate respondsToSelector:@selector(VMaxCustomAd:didFailWithError:)]) {
             VLog(@"%@ VMaxCustomAd:didFailWithError",NSStringFromClass([self class]));
             [self.delegate performSelector:@selector(VMaxCustomAd:didFailWithError:) withObject:self withObject:error];
         }
-
+        
     }
-
+    
     else if (event.type == kIMAAdEvent_PAUSE){
-
+        
         if (self.delegate && [self.delegate respondsToSelector:@selector(VMaxCustomAdPause)]) {
             VLog(@"%@ VMaxCustomAdPause",NSStringFromClass([self class]));
             [self.delegate VMaxCustomAdPause];
         }
-
+        
     }
-
+    
     else if (event.type == kIMAAdEvent_RESUME) {
-
+        
         if (self.delegate && [self.delegate respondsToSelector:@selector(VMaxCustomAdResume)]) {
             VLog(@"%@ VMaxCustomAdResume",NSStringFromClass([self class]));
             [self.delegate VMaxCustomAdResume];
         }
-
+        
+    }
+    
+    //3.15.12
+    else if (event.type == kIMAAdEvent_TAPPED) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(VMaxCustomAdTapped)]) {
+            VLog(@"%@ VMaxCustomAdTapped",NSStringFromClass([self class]));
+            [self.delegate VMaxCustomAdTapped];
+        }
     }
 }
 
 - (void)adsManager:(IMAAdsManager *)adsManager didReceiveAdError:(IMAAdError *)error {
     VLog(@"%@ didReceiveAdError %@",NSStringFromClass([self class]),error.message);
     // Something went wrong with the ads manager after ads were loaded. Log the error.
-
+    
     self.adIsPlaying = NO;
-
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(VMaxCustomAd:didFailWithError:)]) {
         VLog(@"%@ VMaxCustomAd:didFailWithError: %@",NSStringFromClass([self class]),error);
         NSError *adError = [[NSError alloc] initWithDomain:kVMaxAdErrorDomain code:error.type userInfo:@{kVMaxAdErrorDetail:error.message}];
@@ -430,12 +439,12 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
 #pragma mark - IMAWebOpenerDelegate
 - (void)webOpenerWillOpenExternalBrowser:(NSObject *)webOpener {
     VLog(@"%@ webOpenerWillOpenExternalBrowser",NSStringFromClass([self class]));
-
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(VMaxCustomAdOnAdClicked:)]) {
         VLog(@"%@ VMaxCustomAdOnAdClicked",NSStringFromClass([self class]));
         [self.delegate performSelector:@selector(VMaxCustomAdOnAdClicked:) withObject:self];
     }
-
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(VMaxCustomAdWillLeaveApplication:)]) {
         VLog(@"%@ VMaxCustomAdWillLeaveApplication",NSStringFromClass([self class]));
         [self.delegate performSelector:@selector(VMaxCustomAdWillLeaveApplication:) withObject:self];
@@ -444,7 +453,7 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
 
 - (void)webOpenerWillOpenInAppBrowser:(NSObject *)webOpener {
     VLog(@"%@ webOpenerWillOpenInAppBrowser",NSStringFromClass([self class]));
-
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(VMaxCustomAdOnAdClicked:)]) {
         VLog(@"%@ VMaxCustomAdOnAdClicked",NSStringFromClass([self class]));
         [self.delegate performSelector:@selector(VMaxCustomAdOnAdClicked:) withObject:self];
@@ -472,7 +481,7 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
             [self updateFrames];
         }
     } @catch (NSException *exception) {
-
+        
     }
 }
 
@@ -503,7 +512,7 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
     VLog(@"%@ dealloc",NSStringFromClass([self class]));
     @try {
         [self stopAdBadgeTimer]; //3.15.8 Ad Badge Label
-
+        
         if(_adsManager != nil) {
             [_adsManager destroy];
             _adsManager.delegate = nil;
@@ -513,13 +522,13 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
             [_contentPlayerLayer removeFromSuperlayer];
             _contentPlayerLayer = nil;
         }
-
+        
         if(_contentPlayer != nil) {
             _contentPlayer = nil;
         }
-
+        
         [self removeObserver:self forKeyPath:@"contentPlayerContainerView.frame"];
-
+        
         [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -605,7 +614,7 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
             }
         }
     } @catch (NSException *exception) {
-
+        
     }
     return adTagURL;
 }
@@ -685,6 +694,8 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
             NSString *currentTime = [self convertSecondsToMinutes:sec];
             self.adBadgeLabel.text = [[NSString alloc] initWithFormat:@"%@ : %@",self.strAdBadge,currentTime];
         }
+        
+        [self updateMediaProgess:@(currentTime * 1000) withTotalDuration:@(totalTime * 1000)]; //3.15.10
     }
 }
 
@@ -712,12 +723,12 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
 
 - (void)linkOpenerDidOpenInAppLink:(NSObject *)linkOpener{
     VLog(@"%@ linkOpenerDidOpenInAppLink",NSStringFromClass([self class]));
-
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(VMaxCustomAdOnAdClicked:)]) {
         VLog(@"%@ VMaxCustomAdOnAdClicked",NSStringFromClass([self class]));
         [self.delegate performSelector:@selector(VMaxCustomAdOnAdClicked:) withObject:self];
     }
-
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(VMaxCustomAdWillLeaveApplication:)]) {
         VLog(@"%@ VMaxCustomAdWillLeaveApplication",NSStringFromClass([self class]));
         [self.delegate performSelector:@selector(VMaxCustomAdWillLeaveApplication:) withObject:self];
@@ -734,17 +745,17 @@ NSString *const kInContentVideo_MaxAdDur             = @"max_ad_duration";
 
 - (void)linkOpenerDidCloseInAppLink:(NSObject *)linkOpener{
     VLog(@"%@ linkOpenerDidCloseInAppLink",NSStringFromClass([self class]));
-
+    
     if (self.adsManager){
         [self.adsManager resume];
     }
 }
 
+//3.15.10
 - (void)updateMediaProgess:(NSNumber*) currentDuration withTotalDuration:(NSNumber*)totalDuration {
     if (self.delegate && [self.delegate respondsToSelector:@selector(VMaxCustomAdProgress:withTotalDuration:)]) {
         [self.delegate VMaxCustomAdProgress:currentDuration withTotalDuration:totalDuration];
     }
 }
-
 
 @end
