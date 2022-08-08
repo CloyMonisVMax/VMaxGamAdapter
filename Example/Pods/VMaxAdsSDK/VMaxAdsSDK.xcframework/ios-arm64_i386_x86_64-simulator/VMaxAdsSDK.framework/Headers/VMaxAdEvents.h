@@ -13,25 +13,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol VMaxAdEvents <NSObject>
 
--(void)onAdInit;
--(void)onAdReady:(VmaxAdInfo*)vmaxAdInfo;
--(void)onAdError:(VmaxAdInfo*)vmaxAdInfo error:(NSError *)error;
--(void)onAdRender:(VmaxAdInfo*)vmaxAdInfo;
--(void)onAdImpression:(VmaxAdInfo*)vmaxAdInfo;
--(void)onAdMediaStart:(VmaxAdInfo*)vmaxAdInfo;
--(void)onAdMediaFirstQuartile:(VmaxAdInfo*)vmaxAdInfo;
--(void)onAdMediaMidPoint:(VmaxAdInfo*)vmaxAdInfo;
--(void)onAdMediaThirdQuartile:(VmaxAdInfo*)vmaxAdInfo;
--(void)onAdMediaEnd:(VmaxAdInfo*)vmaxAdInfo;
--(void)onAdMediaExpand:(VmaxAdInfo*)vmaxAdInfo;
--(void)onAdMediaCollapse:(VmaxAdInfo*)vmaxAdInfo;
--(void)onAdClick:(VmaxAdInfo*)vmaxAdInfo;
--(void)onAdSkip:(VmaxAdInfo*)vmaxAdInfo;
--(void)onAdClose:(VmaxAdInfo*)vmaxAdInfo;
--(void)onAdPause:(VmaxAdInfo*)vmaxAdInfo;
--(void)onAdResume:(VmaxAdInfo*)vmaxAdInfo;
--(void)onAdMediaBitrateChange:(float)indicatedBitrate;
--(void)onAdTapped:(VmaxAdInfo*)vmaxAdInfo;
+-(void)onAdEventInit;
+-(void)onAdEventReady:(VmaxAdInfo*)vmaxAdInfo;
+-(void)onAdEventError:(VmaxAdInfo*)vmaxAdInfo error:(NSError *)error;
+-(void)onAdEventRender:(VmaxAdInfo*)vmaxAdInfo;
+-(void)onAdEventImpression:(VmaxAdInfo*)vmaxAdInfo;
+-(void)onAdEventMediaStart:(VmaxAdInfo*)vmaxAdInfo;
+-(void)onAdEventMediaFirstQuartile:(VmaxAdInfo*)vmaxAdInfo;
+-(void)onAdEventMediaMidPoint:(VmaxAdInfo*)vmaxAdInfo;
+-(void)onAdEventMediaThirdQuartile:(VmaxAdInfo*)vmaxAdInfo;
+-(void)onAdEventMediaEnd:(VmaxAdInfo*)vmaxAdInfo;
+-(void)onAdEventMediaExpand:(VmaxAdInfo*)vmaxAdInfo;
+-(void)onAdEventMediaCollapse:(VmaxAdInfo*)vmaxAdInfo;
+-(void)onAdEventClick:(VmaxAdInfo*)vmaxAdInfo;
+-(void)onAdEventSkip:(VmaxAdInfo*)vmaxAdInfo;
+-(void)onAdEventClose:(VmaxAdInfo*)vmaxAdInfo;
+-(void)onAdEventPause:(VmaxAdInfo*)vmaxAdInfo;
+-(void)onAdEventResume:(VmaxAdInfo*)vmaxAdInfo;
+-(void)onAdEventMediaBitrateChange:(float)indicatedBitrate;
+-(void)onAdEventTapped:(VmaxAdInfo*)vmaxAdInfo;
+-(void)onAdEventMediaProgress:(NSInteger)currentDuration withTotalDuration:(NSInteger)totalDuration;
 
 @end
 
@@ -42,6 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onCompanionError:(NSString*)adSlotId;
 - (void)onCompanionClose:(NSString*)adSlotId;
 - (void)onCompanionClick:(NSString*)adSlotId;
+- (void)onCompanionSkip:(NSString*)adSlotId;
+- (void)onCompanionComplete:(NSString*)adSlotId;
 
 @end
 

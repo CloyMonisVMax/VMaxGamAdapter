@@ -1,7 +1,7 @@
 PODS:
   - GoogleAds-IMA-iOS-SDK (3.16.3)
-  - VMaxAdsSDK (0.0.136)
-  - VMaxGamAdapter (0.0.1):
+  - VMaxAdsSDK (0.0.146)
+  - VMaxGamAdapter (0.0.5):
     - GoogleAds-IMA-iOS-SDK (~> 3.16.3)
     - VMaxAdsSDK
 
@@ -19,8 +19,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   GoogleAds-IMA-iOS-SDK: 1aba71fa5b58dc463cc5b752f06e970ec7c739c1
-  VMaxAdsSDK: 6bc6876c878681b6a2dd1cce3fdcec22e593abc8
-  VMaxGamAdapter: bbe82fd8489dd85c8dd20754e6be74f5e8d4a7d4
+  VMaxAdsSDK: 55f316cf5a340f496c14fd148d357c31b5bb503d
+  VMaxGamAdapter: a52d2d06a28b8b35c539af41b3a06f6d2a1615da
 
 PODFILE CHECKSUM: 9bb0d7a9ecee996659522178f491c884de29c017
 

@@ -35,10 +35,10 @@
 		40ADFAB0DE9D6DE983AD54DED855A718 /* Pods-VMaxGamAdapter_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C060F1D7C5A5E4774CDEC77CEE2E76F /* Pods-VMaxGamAdapter_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7FCBE13823CA48857B1996781D60987D /* VMaxGoogleIMAAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 19F3F624D00523309F70F1E1F6484D09 /* VMaxGoogleIMAAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		94B38831941C815B8C46698DC856EBE9 /* VMaxGamAdapter-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B37B7E700811D29E196AA7041ED6F67 /* VMaxGamAdapter-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9DAAEF976E838C3F97363866323C7F5D /* VMaxGoogleIMAAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 633639A3C071FD79BD8CD25FABDB26D0 /* VMaxGoogleIMAAdapter.m */; };
 		A225B8D4B05F15A5586E81BFB55545DE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
 		B0933B8DBD58695B4D30AB7DA5DDE631 /* Pods-VMaxGamAdapter_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C56B4D3FFEA752BFE59EF8ED771394B3 /* Pods-VMaxGamAdapter_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C58B2866532EF8D98457851D857652BA /* VMaxGoogleIMAAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 633639A3C071FD79BD8CD25FABDB26D0 /* VMaxGoogleIMAAdapter.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
-		DACF7D69EFE989C51E1AECE89159C1F9 /* VMaxGamAdapter-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 76884133A36106F6A6E655D675427FD5 /* VMaxGamAdapter-dummy.m */; };
+		F8B70B69AC69987D28634FDB7AE89D8E /* VMaxGamAdapter-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 76884133A36106F6A6E655D675427FD5 /* VMaxGamAdapter-dummy.m */; };
 		FC8B448A3013E4C5A0FD24B62833E21C /* Pods-VMaxGamAdapter_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC86EC4172B588103B09D4AA3D936DB /* Pods-VMaxGamAdapter_Tests-dummy.m */; };
 		FE5A62983DDEAFCC81665792C4BD1DC0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -389,7 +389,7 @@
 			buildConfigurationList = F9E8345BB5AE1E46527303EBF48B2983 /* Build configuration list for PBXNativeTarget "VMaxGamAdapter" */;
 			buildPhases = (
 				61478E1F8844DD787008A140EE8F0EB4 /* Headers */,
-				BB9B1968A2E8E31A47B04A17E8565A34 /* Sources */,
+				188E4C1D600110C3CFD3146E66ED4BE6 /* Sources */,
 				803D7EE45CAE8F349C132DCE57ED0F6F /* Frameworks */,
 				27E3AA46B7D9214D08177F1B6FFCE3B3 /* Resources */,
 			);
@@ -547,12 +547,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BB9B1968A2E8E31A47B04A17E8565A34 /* Sources */ = {
+		188E4C1D600110C3CFD3146E66ED4BE6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DACF7D69EFE989C51E1AECE89159C1F9 /* VMaxGamAdapter-dummy.m in Sources */,
-				C58B2866532EF8D98457851D857652BA /* VMaxGoogleIMAAdapter.m in Sources */,
+				F8B70B69AC69987D28634FDB7AE89D8E /* VMaxGamAdapter-dummy.m in Sources */,
+				9DAAEF976E838C3F97363866323C7F5D /* VMaxGoogleIMAAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -757,6 +757,38 @@
 			};
 			name = Release;
 		};
+		51B59D17E8E30A9A4B002D8C9634D781 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D327A1BFB6DD04F92F0680F67BF681EE /* VMaxGamAdapter.debug.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/VMaxGamAdapter/VMaxGamAdapter-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/VMaxGamAdapter/VMaxGamAdapter-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/VMaxGamAdapter/VMaxGamAdapter.modulemap";
+				PRODUCT_MODULE_NAME = VMaxGamAdapter;
+				PRODUCT_NAME = VMaxGamAdapter;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 		63FAF33E1C55B71A5F5A8B3CC8749F99 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -899,38 +931,6 @@
 			};
 			name = Debug;
 		};
-		AB02553D4AE9B5860F18A126B7FB7E7D /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6DE7661E164CF25FF1B5577CCD05B306 /* VMaxGamAdapter.release.xcconfig */;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/VMaxGamAdapter/VMaxGamAdapter-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/VMaxGamAdapter/VMaxGamAdapter-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/VMaxGamAdapter/VMaxGamAdapter.modulemap";
-				PRODUCT_MODULE_NAME = VMaxGamAdapter;
-				PRODUCT_NAME = VMaxGamAdapter;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		C733090DE116CABE471DD55A3D355A40 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 740591B0CF24AE10A9AA20B899447399 /* Pods-VMaxGamAdapter_Example.release.xcconfig */;
@@ -966,11 +966,12 @@
 			};
 			name = Release;
 		};
-		D7AA7012AA650A7CFCAF2BCBB8D1AB04 /* Debug */ = {
+		D3F375E7C7186ABE37D3A7FE617CF2B4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D327A1BFB6DD04F92F0680F67BF681EE /* VMaxGamAdapter.debug.xcconfig */;
+			baseConfigurationReference = 6DE7661E164CF25FF1B5577CCD05B306 /* VMaxGamAdapter.release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -982,7 +983,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/VMaxGamAdapter/VMaxGamAdapter-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/VMaxGamAdapter/VMaxGamAdapter-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/VMaxGamAdapter/VMaxGamAdapter.modulemap";
 				PRODUCT_MODULE_NAME = VMaxGamAdapter;
@@ -992,10 +993,11 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -1048,8 +1050,8 @@
 		F9E8345BB5AE1E46527303EBF48B2983 /* Build configuration list for PBXNativeTarget "VMaxGamAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D7AA7012AA650A7CFCAF2BCBB8D1AB04 /* Debug */,
-				AB02553D4AE9B5860F18A126B7FB7E7D /* Release */,
+				51B59D17E8E30A9A4B002D8C9634D781 /* Debug */,
+				D3F375E7C7186ABE37D3A7FE617CF2B4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
